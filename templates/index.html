@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html >
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
 <head>
   <meta charset="UTF-8">
-  <title>ML API</title>
+  <title>COVID</title>
   <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
@@ -14,6 +13,14 @@
 
 <body>
  <div class="login">
+	<form action="{{ url_for('detail')}}"method="post">
+        <!--input type="text" name="test_score" placeholder="Test Score" required="required" />
+		<input type="text" name="interview_score" placeholder="Interview Score" required="required" /-->
+		<br>
+        <button type="submit" class="btn btn-primary"  value="Predict" name="total" style="position: absolute; top: -80px; right: 810px;">HelpLine Details</button>
+		<button type="submit" class="btn btn-primary"  value="Pre" name="precaution" style="position: absolute; top: -80px; left: 730px">Precautions</button>
+
+    </form>
 	<h1>COVID Case Analysis</h1>
 
      <!-- Main Input For Receiving Query to our ML -->

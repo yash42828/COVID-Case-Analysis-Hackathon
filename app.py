@@ -13,6 +13,12 @@ recovered = pickle.load(open('recovered.pkl', 'rb'))
 def home():
     return render_template('index.html')
 
+@app.route('/detail',methods=['POST'])
+def detail():
+    if request.form.get('total') == 'Predict':
+        return render_template('detail.html')
+    else:
+        return render_template('precautions.html')
 @app.route('/predict',methods=['POST'])
 def predict():
     '''
