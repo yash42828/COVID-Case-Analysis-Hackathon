@@ -27,35 +27,45 @@ def predict():
     cols = confirmed_df.keys()
     confirmed = confirmed_df.loc[:, cols[4]:cols[-1]]
     dates = confirmed.keys()"""
-    
+    b = str(request.form.values())
     a =  [str(x) for x in request.form.values()]
     if '/' in a[0]:
         res = a[0].split('/')
     elif '-' in a[0]:
         res = a[0].split('-')
     from datetime import date
-    d0 = date(2020, 1, 22)
-    d1 = date(int(res[2]), int(res[1]), int(res[0]))
-    delta = d1 - d0
-    #dates = 62
-    #print(delta.days)
-    future_forcast = np.array([i for i in range(delta.days)]).reshape(-1, 1)
+    from datetime import datetime
+    isValidDate = True
+    print("Value",a)
+    try :
+        datetime.strptime(a[0],"%d-%m-%Y")
+    except ValueError :
+        isValidDate = False
+    if(not isValidDate) :
+        return render_template('index.html', prediction_text='Invalid Date Format')
+    else :
+        d0 = date(2020, 1, 22)
+        d1 = date(int(res[2]), int(res[1]), int(res[0]))
+        delta = d1 - d0
+        #dates = 62
+        #print(delta.days)
+        future_forcast = np.array([i for i in range(delta.days+1)]).reshape(-1, 1)
 
-    if request.method == 'POST':
-            if request.form.get('total') == 'Predict':
-                # pass
-                prediction = model.predict(future_forcast)
-                print(prediction[-1])
-                result = int(prediction[-1])
-                return render_template('index.html', prediction_text='Total No of Confirmed Cases will be: {}'.format(result))
-            elif request.form.get('total1') == 'Predict1':
-                prediction2 = death.predict(future_forcast)
-                result2 = int(prediction2[-1])
-                return render_template('index.html',prediction_text2='Total No of Death Cases will be: {}'.format(result2))
-            elif request.form.get('total2') == 'Predict2':
-                prediction3 = recovered.predict(future_forcast)
-                result3 = int(prediction3[-1])
-                return render_template('index.html',prediction_text3='Total No of Recovered Cases will be: {}'.format(result3))
+        if request.method == 'POST':
+                if request.form.get('total') == 'Predict':
+                    # pass
+                    prediction = model.predict(future_forcast)
+                    print(prediction[-1])
+                    result = int(prediction[-1])
+                    return render_template('index.html', prediction_text='Total No of Confirmed Cases will be: {}'.format(result))
+                elif request.form.get('total1') == 'Predict1':
+                    prediction2 = death.predict(future_forcast)
+                    result2 = int(prediction2[-1])
+                    return render_template('index.html',prediction_text='Total No of Death Cases will be: {}'.format(result2))
+                elif request.form.get('total2') == 'Predict2':
+                    prediction3 = recovered.predict(future_forcast)
+                    result3 = int(prediction3[-1])
+                    return render_template('index.html',prediction_text='Total No of Recovered Cases will be: {}'.format(result3))
 
 
 
